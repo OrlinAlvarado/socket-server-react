@@ -3,6 +3,7 @@ const http     = require('http');
 const socketio = require('socket.io');
 const path     = require('path');
 const Sockets  = require('./sockets');
+const cors     = require('cors');
 
 class Server {
     constructor() {
@@ -13,12 +14,19 @@ class Server {
         this.server = http.createServer( this.app );
         
         // Configuracion de sockets
-        this.io = socketio(this.server, { /* configuraciones */});
+        this.io = socketio(this.server, {cors: {
+            origin: "*",
+            methods: ["GET", "POST"]
+          }});
     }
     
     middlewares(){
         //Deplegar el directorio publico
         this.app.use( express.static( path.resolve(__dirname, '../public' )));
+        
+        // CORS
+        
+        this.app.use( cors );
     }
     
     configurarSockets(){

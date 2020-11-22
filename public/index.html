@@ -58,6 +58,10 @@
            txtMensaje.focus();
         });
         
+        socket.on('connect', () => {
+            console.log('Conectado');
+        })
+        
         socket.on('mensaje-from-server', (data) => {
             mensajes.innerHTML += `<li>${ data.texto } </li>`;
         });
